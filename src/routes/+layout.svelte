@@ -3,7 +3,7 @@
 	import "../app.css";
 </script>
 
-<div class="bg-gray-800 text-blue-50 w-full h-lvh flex flex-col">
+<div class="bg-[#2F4F4F] text-blue-50 w-full h-lvh flex flex-col">
 	<Header />
 
 	<main>

@@ -1,23 +1,22 @@
 <script lang="ts">
 	import { ToneColors } from "$lib/colors";
 	import { MajorMode, MinorMode, Scale } from "$lib/scale";
-	import { AllNotes, Note, NoteToString, String } from "$lib/string";
+	import {
+		AllNotes,
+		DefaultTuning,
+		Note,
+		NoteToString,
+		String,
+	} from "$lib/string";
 
-	let fret_size = 24;
+	let fret_size = 23;
 
 	let key = Note.C;
 	let current_scale = new Scale(key, MajorMode);
 
-	let notes = AllNotes;
+	const strings = DefaultTuning;
 
-	const strings = [
-		new String(Note.E),
-		new String(Note.B),
-		new String(Note.G),
-		new String(Note.D),
-		new String(Note.A),
-		new String(Note.E),
-	];
+	let notes = AllNotes;
 
 	const modes = [
 		{ mode: MajorMode, name: "Major" },
@@ -40,7 +39,7 @@
 	<div class="flex flex-row items-center space-x-2">
 		<label for="fre_size">Number of frets:</label>
 		<input
-			class="bg-gray-800 border-sky-50"
+			class="bg-default border-sky-50"
 			type="number"
 			bind:value={fret_size}
 			min="0"
@@ -52,10 +51,10 @@
 			name="key"
 			id="key"
 			bind:value={key}
-			class="bg-gray-800"
+			class="bg-[#2F4F4F]"
 		>
 			{#each notes as note}
-				<option value={note}
+				<option value={note} class="bg-[#2F4F4F]"
 					>{NoteToString(note)}</option
 				>
 			{/each}
@@ -65,10 +64,14 @@
 			name="mode"
 			id="mode"
 			bind:value={currentMode}
-			class="bg-gray-800"
+			class="bg-[#2F4F4F]"
 		>
 			{#each modes as mode}
-				<option value={mode}>{mode.name}</option>
+				<option
+					value={mode}
+					class="bg-[#2F4F4F] border-[#2F4F4F]"
+					>{mode.name}</option
+				>
 			{/each}
 		</select>
 	</div>

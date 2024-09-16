@@ -74,3 +74,12 @@ export class String {
 		return NoteToString(this.get_note_at(fret))
 	}
 }
+
+export const DefaultTuning = [
+	new String(Note.E),
+	new String(Note.B),
+	new String(Note.G),
+	new String(Note.D),
+	new String(Note.A),
+	new String(Note.E),
+];
