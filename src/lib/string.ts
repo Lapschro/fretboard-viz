@@ -1,5 +1,8 @@
 export enum NoteValue {
-	C = 0,
+	A = 0,
+	As,
+	B,
+	C,
 	Cs,
 	D,
 	Ds,
@@ -8,9 +11,6 @@ export enum NoteValue {
 	Fs,
 	G,
 	Gs,
-	A,
-	As,
-	B
 }
 
 export const AllNotes = [
@@ -86,6 +86,10 @@ export class Note {
 		const octave = this.octave + Math.floor((this.note + interval) / TOTAL_NOTES)
 
 		return Note.get(note, octave)
+	}
+
+	distance(note: Note) {
+		return (-this.octave + note.octave) * TOTAL_NOTES + (-this.note + note.note)
 	}
 
 	toString() {

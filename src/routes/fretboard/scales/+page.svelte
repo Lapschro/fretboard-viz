@@ -1,13 +1,12 @@
 <script lang="ts">
 	import { ToneColors } from "$lib/colors";
 	import { MajorMode, MinorMode, Scale } from "$lib/scale";
+	import { playNote } from "$lib/sound_player";
 	import {
 		AllNotes,
 		DefaultTuning,
-		Note,
 		NoteToString,
 		NoteValue,
-		String,
 	} from "$lib/string";
 
 	let fret_size = 23;
@@ -93,10 +92,16 @@
 								color: ${current_scale.inScale(string.getNoteAt(fret).note) != -1 ? "black" : "white"};
 
 							`}
+							on:click={() =>
+								playNote(
+									string.getNoteAt(
+										fret,
+									),
+								)}
 						>
-							{string.getNoteAtString(
-								fret,
-							)}
+							{string
+								.getNoteAt(fret)
+								.toString()}
 							{current_scale.inScale(
 								string.getNoteAt(
 									fret,
