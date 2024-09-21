@@ -1,10 +1,10 @@
 import type { IScale, Scale } from "./scale";
-import type { Note } from "./string";
+import type { NoteValue } from "./string";
 
 export class Pentatonic implements IScale {
 	scale: Scale
 	melodicIntervals: number[]
-	notes: Note[]
+	notes: NoteValue[]
 
 	public constructor(scale: Scale, melodicIntervals: number[]) {
 		this.scale = scale
@@ -15,7 +15,7 @@ export class Pentatonic implements IScale {
 			this.notes.push(scale.getNoteMelodicInterval(melodicIntervals[i]))
 		}
 	}
-	public inScale(note: Note): number {
+	public inScale(note: NoteValue): number {
 		if (this.notes.some(x => x === note)) {
 			return this.scale.inScale(note)
 		}

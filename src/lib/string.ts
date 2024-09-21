@@ -1,4 +1,4 @@
-export enum Note {
+export enum NoteValue {
 	C = 0,
 	Cs,
 	D,
@@ -14,46 +14,82 @@ export enum Note {
 }
 
 export const AllNotes = [
-	Note.C,
-	Note.Cs,
-	Note.D,
-	Note.Ds,
-	Note.E,
-	Note.F,
-	Note.Fs,
-	Note.G,
-	Note.Gs,
-	Note.A,
-	Note.As,
-	Note.B
+	NoteValue.C,
+	NoteValue.Cs,
+	NoteValue.D,
+	NoteValue.Ds,
+	NoteValue.E,
+	NoteValue.F,
+	NoteValue.Fs,
+	NoteValue.G,
+	NoteValue.Gs,
+	NoteValue.A,
+	NoteValue.As,
+	NoteValue.B
 ]
 
-export function NoteToString(n: Note) {
+export function NoteToString(n: NoteValue) {
 	switch (n) {
-		case Note.C:
+		case NoteValue.C:
 			return "C"
-		case Note.Cs:
+		case NoteValue.Cs:
 			return "C#"
-		case Note.D:
+		case NoteValue.D:
 			return "D"
-		case Note.Ds:
+		case NoteValue.Ds:
 			return "D#"
-		case Note.E:
+		case NoteValue.E:
 			return "E"
-		case Note.F:
+		case NoteValue.F:
 			return "F"
-		case Note.Fs:
+		case NoteValue.Fs:
 			return "F#"
-		case Note.G:
+		case NoteValue.G:
 			return "G"
-		case Note.Gs:
+		case NoteValue.Gs:
 			return "G#"
-		case Note.A:
+		case NoteValue.A:
 			return "A"
-		case Note.As:
+		case NoteValue.As:
 			return "A#"
-		case Note.B:
+		case NoteValue.B:
 			return "B"
+	}
+}
+
+export function AddIntervalToNote(note: NoteValue, interval: number) {
+	const res = ((note + (interval % TOTAL_NOTES) + TOTAL_NOTES) % TOTAL_NOTES) as NoteValue
+	return res
+}
+
+export class Note {
+	note: NoteValue
+	octave: number
+
+	static notes: { [key: string]: Note } = {}
+
+	private constructor(note: NoteValue, octave: number) {
+		this.note = note
+		this.octave = octave
+	}
+
+	static get(note: NoteValue, octave: number) {
+		if (!!!Note.notes[`${NoteToString(note)}${octave}`]) {
+			Note.notes[`${NoteToString(note)}${octave}`] = new Note(note, octave)
+		}
+
+		return Note.notes[`${NoteToString(note)}${octave}`]
+	}
+
+	addInterval(interval: number) {
+		const note = AddIntervalToNote(this.note, interval) as NoteValue
+		const octave = this.octave + Math.floor((this.note + interval) / TOTAL_NOTES)
+
+		return Note.get(note, octave)
+	}
+
+	toString() {
+		return `${NoteToString(this.note)}${this.octave}`
 	}
 }
 
@@ -62,24 +98,24 @@ export const TOTAL_NOTES = 12
 export class String {
 	nut: Note;
 
-	public constructor(nut_note: Note) {
-		this.nut = nut_note;
+	public constructor(nut_note: NoteValue, octave: number) {
+		this.nut = Note.get(nut_note, octave);
 	}
 
-	public get_note_at(fret: number) {
-		return (this.nut + fret) % TOTAL_NOTES
+	public getNoteAt(fret: number) {
+		return this.nut.addInterval(fret)
 	}
 
-	public get_note_at_string(fret: number) {
-		return NoteToString(this.get_note_at(fret))
+	public getNoteAtString(fret: number) {
+		return NoteToString(this.getNoteAt(fret).note)
 	}
 }
 
 export const DefaultTuning = [
-	new String(Note.E),
-	new String(Note.B),
-	new String(Note.G),
-	new String(Note.D),
-	new String(Note.A),
-	new String(Note.E),
+	new String(NoteValue.E, 4),
+	new String(NoteValue.B, 4),
+	new String(NoteValue.G, 3),
+	new String(NoteValue.D, 3),
+	new String(NoteValue.A, 3),
+	new String(NoteValue.E, 2),
 ];

@@ -1,15 +1,13 @@
-import { String, type Note } from "./string";
+import { AddIntervalToNote, NoteToString, type NoteValue } from "./string";
 
 export class Scale implements IScale {
-	key: Note
-	string: String
+	key: NoteValue
 	mode: Mode
-	notes: Note[]
+	notes: NoteValue[]
 
-	public constructor(key: Note, mode: Mode) {
+	public constructor(key: NoteValue, mode: Mode) {
 		this.key = key
 		this.mode = mode
-		this.string = new String(key)
 		this.notes = []
 
 		for (let i = 0; i < mode.intervals.length; i++) {
@@ -19,22 +17,22 @@ export class Scale implements IScale {
 
 	public getNoteMelodicInterval(interval: number) {
 		const fret = this.mode.getInterval(interval)
-		return this.string.get_note_at(fret)
+		return AddIntervalToNote(this.key, fret)
 	}
 
 	public getNoteMelodicIntervalString(interval: number) {
 		const fret = this.mode.getInterval(interval)
-		return this.string.get_note_at_string(fret)
+		return NoteToString(this.getNoteMelodicInterval(fret))
 	}
 
-	public inScale(note: Note) {
+	public inScale(note: NoteValue) {
 		return this.notes.findIndex(x => x === note);
 	}
 
 }
 
 export interface IScale {
-	inScale(note: Note): number
+	inScale(note: NoteValue): number
 }
 
 

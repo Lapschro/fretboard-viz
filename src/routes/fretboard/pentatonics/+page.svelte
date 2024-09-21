@@ -9,14 +9,14 @@
 	import {
 		AllNotes,
 		DefaultTuning,
-		Note,
 		NoteToString,
+		NoteValue,
 		String,
 	} from "$lib/string";
 
 	let fret_size = 24;
 
-	let key = Note.C;
+	let key = NoteValue.C;
 	let current_scale = new Scale(key, MajorMode);
 	let notes = AllNotes;
 
@@ -56,11 +56,15 @@
 		);
 	}
 
-	function inPentatonic(
-		pentatonic: Pentatonic,
-		string: String,
-		note: Note,
-	) {}
+	function inPentatonic(note: NoteValue) {
+		return currentPentatonic.inScale(note) !== -1;
+	}
+
+	function getColor(string: String, fret: number) {
+		return ToneColors[
+			currentPentatonic.inScale(string.getNoteAt(fret).note)
+		];
+	}
 </script>
 
 <section class="p-4 flex flex-col space-y-4">
@@ -112,23 +116,24 @@
 						<td
 							class="border"
 							style={`
-								background-color: ${currentPentatonic.inScale(string.get_note_at(fret)) != -1 ? ToneColors[currentPentatonic.inScale(string.get_note_at(fret))] : "transparent"};
-								color: ${currentPentatonic.inScale(string.get_note_at(fret)) != -1 ? "black" : "white"};
+								background-color: ${inPentatonic(string.getNoteAt(fret).note) ? getColor(string, fret) : "transparent"};
+								color: ${inPentatonic(string.getNoteAt(fret).note) ? "black" : "white"};
 
 							`}
 						>
-							{string.get_note_at_string(
-								fret,
-							)}
+							{string
+								.getNoteAt(fret)
+								.toString()}
 							{currentPentatonic.inScale(
-								string.get_note_at(
+								string.getNoteAt(
 									fret,
-								),
+								).note,
 							) != -1
 								? `(${currentPentatonic.inScale(
-										string.get_note_at(
+										string.getNoteAt(
 											fret,
-										),
+										)
+											.note,
 									)})`
 								: ""}
 						</td>

@@ -6,12 +6,13 @@
 		DefaultTuning,
 		Note,
 		NoteToString,
+		NoteValue,
 		String,
 	} from "$lib/string";
 
 	let fret_size = 23;
 
-	let key = Note.C;
+	let key = NoteValue.C;
 	let current_scale = new Scale(key, MajorMode);
 
 	const strings = DefaultTuning;
@@ -88,23 +89,24 @@
 						<td
 							class="border"
 							style={`
-								background-color: ${current_scale.inScale(string.get_note_at(fret)) != -1 ? ToneColors[current_scale.inScale(string.get_note_at(fret))] : "transparent"};
-								color: ${current_scale.inScale(string.get_note_at(fret)) != -1 ? "black" : "white"};
+								background-color: ${current_scale.inScale(string.getNoteAt(fret).note) != -1 ? ToneColors[current_scale.inScale(string.getNoteAt(fret).note)] : "transparent"};
+								color: ${current_scale.inScale(string.getNoteAt(fret).note) != -1 ? "black" : "white"};
 
 							`}
 						>
-							{string.get_note_at_string(
+							{string.getNoteAtString(
 								fret,
 							)}
 							{current_scale.inScale(
-								string.get_note_at(
+								string.getNoteAt(
 									fret,
-								),
+								).note,
 							) != -1
 								? `(${current_scale.inScale(
-										string.get_note_at(
+										string.getNoteAt(
 											fret,
-										),
+										)
+											.note,
 									)})`
 								: ""}
 						</td>
