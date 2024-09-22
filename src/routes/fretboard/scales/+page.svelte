@@ -1,6 +1,13 @@
 <script lang="ts">
 	import { ToneColors } from "$lib/colors";
-	import { MajorMode, MinorMode, Scale } from "$lib/scale";
+	import {
+		DegreeToString,
+		GenerateQuality,
+		MajorMode,
+		MinorMode,
+		ModeValues,
+		Scale,
+	} from "$lib/scale";
 	import { playNote } from "$lib/sound_player";
 	import {
 		AllNotes,
@@ -19,19 +26,39 @@
 	let notes = AllNotes;
 
 	const modes = [
-		{ mode: MajorMode, name: "Major" },
-		{ mode: MinorMode, name: "Minor" },
+		{
+			mode: MajorMode,
+			name: "Major",
+			quality: GenerateQuality(ModeValues.Ionian),
+		},
+		{
+			mode: MinorMode,
+			name: "Minor",
+			quality: GenerateQuality(ModeValues.Aeolian),
+		},
 	];
 
 	let currentMode = modes[0];
 
+	let currentQuality = modes[0].quality;
+
 	let fretboard: number[] = [];
+
+	let degreeToString = (index: number) => {
+		return DegreeToString(index, currentQuality[index]);
+	};
+
 	$: {
 		fretboard = [];
 		for (let i = 0; i <= fret_size; i++) {
 			fretboard.push(i);
 		}
 		current_scale = new Scale(key, currentMode.mode);
+		currentQuality = currentMode.quality;
+
+		degreeToString = (index: number) => {
+			return DegreeToString(index, currentQuality[index]);
+		};
 	}
 </script>
 
@@ -107,11 +134,13 @@
 									fret,
 								).note,
 							) != -1
-								? `(${current_scale.inScale(
-										string.getNoteAt(
-											fret,
-										)
-											.note,
+								? `(${degreeToString(
+										current_scale.inScale(
+											string.getNoteAt(
+												fret,
+											)
+												.note,
+										),
 									)})`
 								: ""}
 						</td>
