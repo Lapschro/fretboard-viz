@@ -23,5 +23,5 @@ export class Pentatonic implements IScale {
 	}
 }
 
-export const MajorPentatonicMelodicInterval = [0, 2, 3, 5, 6]
-export const MinorPentatonicMelodicInterval = [0, 3, 4, 5, 7]
+export const MajorPentatonicMelodicInterval = [0, 1, 2, 4, 5]
+export const MinorPentatonicMelodicInterval = [0, 2, 3, 4, 6]
