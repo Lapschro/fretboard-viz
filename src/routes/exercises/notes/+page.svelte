@@ -42,6 +42,11 @@
 	let key_notes: Set<string>;
 	let found_all = false;
 
+	function randomizeKey() {
+		key = AllNotes[Math.floor(Math.random() * AllNotes.length)];
+		reset();
+	}
+
 	$: {
 		fretboard = [];
 		for (let i = 0; i <= fret_size; i++) {
@@ -61,8 +66,6 @@
 				}
 			}
 		}
-
-		console.log({ selected_notes, key_notes });
 
 		found_all = Array.from(key_notes).every((x: string) =>
 			selected_notes.some((y) => y == x),
@@ -98,6 +101,7 @@
 			{/each}
 		</select>
 		<button on:click={reset}>Reset</button>
+		<button on:click={randomizeKey}>Random</button>
 		<div>
 			{`${found_all ? "Found all notes!" : "Some notes are missing!"}`}
 		</div>
