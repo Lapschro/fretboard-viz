@@ -55,10 +55,19 @@ export interface IScale {
 
 
 export class Mode {
+	static modes: { [key: number]: Mode } = {}
 	intervals: number[]
 
-	public constructor(intervals: number[]) {
+	private constructor(intervals: number[]) {
 		this.intervals = intervals
+	}
+
+	public static get(value: ModeValues) {
+		if (!Mode.modes[value]) {
+			Mode.modes[value] = new Mode(GenerateMode(value))
+		}
+
+		return Mode.modes[value]
 	}
 
 	public getInterval(interval: number) {
@@ -74,8 +83,8 @@ export class Mode {
 }
 
 export const BaseInterval = [2, 2, 1, 2, 2, 2, 1]
-export const MajorMode = new Mode(GenerateMode(ModeValues.Ionian))
-export const MinorMode = new Mode(GenerateMode(ModeValues.Aeolian))
+export const MajorMode = Mode.get(ModeValues.Ionian)
+export const MinorMode = Mode.get(ModeValues.Aeolian)
 
 export const BaseQuality = [Quality.Major, Quality.Minor, Quality.Minor, Quality.Major, Quality.Major, Quality.Minor, Quality.Diminished]
 

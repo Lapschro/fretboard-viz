@@ -3,8 +3,6 @@ import { NoteValue, Note } from "./string";
 export function NoteValueToHertz(note: Note) {
 	const a4 = Note.get(NoteValue.A, 4)
 
-	console.log(a4.distance(note))
-
 	return (440 * Math.pow(2, a4.distance(note) / 12))
 }
 
