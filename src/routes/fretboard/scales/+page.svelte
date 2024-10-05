@@ -5,6 +5,7 @@
 		GenerateQuality,
 		MajorMode,
 		MinorMode,
+		Mode,
 		ModeValues,
 		Scale,
 	} from "$lib/scale";
@@ -15,6 +16,7 @@
 		NoteToString,
 		NoteValue,
 	} from "$lib/string";
+	import Note from "../../Note.svelte";
 
 	let fret_size = 23;
 
@@ -28,13 +30,38 @@
 	const modes = [
 		{
 			mode: MajorMode,
-			name: "Major",
+			name: "Ionian (Major)",
 			quality: GenerateQuality(ModeValues.Ionian),
 		},
 		{
+			mode: Mode.get(ModeValues.Dorian),
+			name: "Dorian",
+			quality: GenerateQuality(ModeValues.Dorian),
+		},
+		{
+			mode: Mode.get(ModeValues.Phrygian),
+			name: "Phrygian",
+			quality: GenerateQuality(ModeValues.Phrygian),
+		},
+		{
+			mode: Mode.get(ModeValues.Lydian),
+			name: "Lydian",
+			quality: GenerateQuality(ModeValues.Lydian),
+		},
+		{
+			mode: Mode.get(ModeValues.Mixolydian),
+			name: "Mixolydian",
+			quality: GenerateQuality(ModeValues.Mixolydian),
+		},
+		{
 			mode: MinorMode,
-			name: "Minor",
+			name: "Aeolian (Minor)",
 			quality: GenerateQuality(ModeValues.Aeolian),
+		},
+		{
+			mode: Mode.get(ModeValues.Locrian),
+			name: "Locrian",
+			quality: GenerateQuality(ModeValues.Locrian),
 		},
 	];
 
@@ -112,38 +139,13 @@
 			{#each strings as string}
 				<tr>
 					{#each fretboard as fret}
-						<td
-							class="border"
-							style={`
-								background-color: ${current_scale.inScale(string.getNoteAt(fret).note) != -1 ? ToneColors[current_scale.inScale(string.getNoteAt(fret).note)] : "transparent"};
-								color: ${current_scale.inScale(string.getNoteAt(fret).note) != -1 ? "black" : "white"};
-
-							`}
-							on:click={() =>
-								playNote(
-									string.getNoteAt(
-										fret,
-									),
-								)}
-						>
-							{string
-								.getNoteAt(fret)
-								.toString()}
-							{current_scale.inScale(
-								string.getNoteAt(
-									fret,
-								).note,
-							) != -1
-								? `(${degreeToString(
-										current_scale.inScale(
-											string.getNoteAt(
-												fret,
-											)
-												.note,
-										),
-									)})`
-								: ""}
-						</td>
+						<Note
+							quality={currentQuality}
+							note={string.getNoteAt(
+								fret,
+							)}
+							scale={current_scale}
+						/>
 					{/each}
 				</tr>
 			{/each}

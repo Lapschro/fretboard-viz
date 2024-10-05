@@ -13,6 +13,7 @@
 		NoteValue,
 		String,
 	} from "$lib/string";
+	import Note from "../../Note.svelte";
 
 	let fret_size = 24;
 
@@ -113,30 +114,13 @@
 			{#each strings as string}
 				<tr>
 					{#each fretboard as fret}
-						<td
-							class="border"
-							style={`
-								background-color: ${inPentatonic(string.getNoteAt(fret).note) ? getColor(string, fret) : "transparent"};
-								color: ${inPentatonic(string.getNoteAt(fret).note) ? "black" : "white"};
-
-							`}
-						>
-							{string
-								.getNoteAt(fret)
-								.toString()}
-							{currentPentatonic.inScale(
-								string.getNoteAt(
-									fret,
-								).note,
-							) != -1
-								? `(${currentPentatonic.inScale(
-										string.getNoteAt(
-											fret,
-										)
-											.note,
-									)})`
-								: ""}
-						</td>
+						<Note
+							quality={currentPentatonic.melodicIntervals}
+							scale={currentPentatonic}
+							note={string.getNoteAt(
+								fret,
+							)}
+						/>
 					{/each}
 				</tr>
 			{/each}
