@@ -4,6 +4,9 @@
 	import { playNote } from "$lib/sound_player";
 	import type { Note } from "$lib/string";
 
+	import note_settings from "$lib/stores/note_sound";
+	import { onDestroy } from "svelte";
+
 	export let scale: IScale;
 	export let note: Note;
 	export let quality: number[];
@@ -11,6 +14,8 @@
 	let degreeToString = (index: number) => {
 		return DegreeToString(index, quality[index]);
 	};
+
+	const { note_duration_s, volume } = note_settings;
 </script>
 
 <!-- svelte-ignore a11y-click-events-have-key-events -->
@@ -21,7 +26,7 @@
 		background-color: ${scale.inScale(note.note) != -1 ? ToneColors[scale.inScale(note.note)] : "transparent"};
 		color: ${scale.inScale(note.note) != -1 ? "black" : "white"};
 	`}
-	on:click={() => playNote(note)}
+	on:click={() => playNote(note, $note_duration_s, $volume)}
 >
 	{note.toString()}
 	{scale.inScale(note.note) != -1

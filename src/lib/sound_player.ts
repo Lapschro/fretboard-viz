@@ -6,7 +6,7 @@ export function NoteValueToHertz(note: Note) {
 	return (440 * Math.pow(2, a4.distance(note) / 12))
 }
 
-export function playNote(note: Note, timeInSeconds?: number) {
+export function playNote(note: Note, timeInSeconds?: number, volume_value?: number) {
 	const audioContext = new AudioContext()
 
 	const oscillator = audioContext.createOscillator()
@@ -15,7 +15,7 @@ export function playNote(note: Note, timeInSeconds?: number) {
 	oscillator.connect(volume)
 	volume.connect(audioContext.destination)
 
-	volume.gain.value = 0.1
+	volume.gain.value = volume_value ?? 0.1
 
 	oscillator.type = 'sine'
 	oscillator.frequency.setValueAtTime(NoteValueToHertz(note), audioContext.currentTime)
