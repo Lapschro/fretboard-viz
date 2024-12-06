@@ -99,7 +99,7 @@ export class Note {
 
 export const TOTAL_NOTES = 12
 
-export class String {
+export class GuitarString {
 	nut: Note;
 
 	public constructor(nut_note: NoteValue, octave: number) {
@@ -116,10 +116,10 @@ export class String {
 }
 
 export const DefaultTuning = [
-	new String(NoteValue.E, 4),
-	new String(NoteValue.B, 4),
-	new String(NoteValue.G, 3),
-	new String(NoteValue.D, 3),
-	new String(NoteValue.A, 3),
-	new String(NoteValue.E, 2),
+	new GuitarString(NoteValue.E, 4),
+	new GuitarString(NoteValue.B, 4),
+	new GuitarString(NoteValue.G, 3),
+	new GuitarString(NoteValue.D, 3),
+	new GuitarString(NoteValue.A, 3),
+	new GuitarString(NoteValue.E, 2),
 ];

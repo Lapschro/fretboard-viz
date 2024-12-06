@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { ToneColors } from "$lib/colors";
 	import {
 		DegreeToString,
 		GenerateQuality,
@@ -9,7 +8,6 @@
 		ModeValues,
 		Scale,
 	} from "$lib/scale";
-	import { playNote } from "$lib/sound_player";
 	import {
 		AllNotes,
 		DefaultTuning,
@@ -66,7 +64,6 @@
 	];
 
 	let currentMode = modes[0];
-
 	let currentQuality = modes[0].quality;
 
 	let fretboard: number[] = [];

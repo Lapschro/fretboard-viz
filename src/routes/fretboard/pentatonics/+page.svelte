@@ -11,7 +11,7 @@
 		DefaultTuning,
 		NoteToString,
 		NoteValue,
-		String,
+		GuitarString,
 	} from "$lib/string";
 	import Note from "../../Note.svelte";
 
@@ -61,7 +61,7 @@
 		return currentPentatonic.inScale(note) !== -1;
 	}
 
-	function getColor(string: String, fret: number) {
+	function getColor(string: GuitarString, fret: number) {
 		return ToneColors[
 			currentPentatonic.inScale(string.getNoteAt(fret).note)
 		];

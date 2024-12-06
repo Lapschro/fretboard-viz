@@ -1,10 +1,10 @@
 export const ToneColors = [
-	"#FFADAD",
-	"#FFD6A5",
-	"#FDFFB6",
-	"#CAFFBF",
-	"#9BF6FF",
-	"#A0C4FF",
-	"#BDB2FF",
+	"#f7f7f7",
+	"#B2E6CE",
+	"#a9bce5",
+	"#ffc080",
+	"#ff99cc",
+	"#66cccc",
+	"#ffd7be",
 	"#FFC6FF",
 ]
