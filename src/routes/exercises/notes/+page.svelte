@@ -5,16 +5,15 @@
 		DefaultTuning,
 		NoteToString,
 		NoteValue,
-		String,
+		GuitarString
 	} from "$lib/string";
 
 	let key = NoteValue.C;
 	let strings = DefaultTuning;
 	let fret_size = 11;
 	let notes = AllNotes;
-	let fretboard: number[] = [];
 
-	let selected_notes: string[] = [];
+	let selected_notes: string[] = $state([])
 
 	function reset() {
 		selected_notes = [];
@@ -39,22 +38,8 @@
 		return string.getNoteAt(fret).note == key;
 	}
 
-	let key_notes: Set<string>;
-	let found_all = false;
-
-	function randomizeKey() {
-		key = AllNotes[Math.floor(Math.random() * AllNotes.length)];
-		reset();
-	}
-
-	$: {
-		fretboard = [];
-		for (let i = 0; i <= fret_size; i++) {
-			fretboard.push(i);
-		}
-		selected_notes = selected_notes;
-
-		key_notes = new Set<string>();
+	let key_notes = $derived.by(()=>{
+		let key_notes = new Set<string>();
 		for (let i = 0; i < strings.length; i++) {
 			const string = strings[i];
 
@@ -67,10 +52,22 @@
 			}
 		}
 
-		found_all = Array.from(key_notes).every((x: string) =>
-			selected_notes.some((y) => y == x),
-		);
+		return key_notes;
+	})
+	let found_all = $derived(Array.from(key_notes).every((x : string) => selected_notes.some((y) => y == x)));
+
+	function randomizeKey() {
+		key = AllNotes[Math.floor(Math.random() * AllNotes.length)];
+		reset();
 	}
+	let fretboard = $derived.by( ()=>{
+		let fretboard = [];
+		for (let i = 0; i <= fret_size; i++) {
+			fretboard.push(i);
+		}
+
+		return fretboard
+	});
 </script>
 
 <section class="p-4 flex flex-col space-y-4">
